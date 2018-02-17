@@ -11,4 +11,4 @@ const meterReadSchema = new Schema({
 
 const MeterRead = mongoose.model('MeterRead', meterReadSchema);
 
-module.exports(MeterRead);
+module.exports = MeterRead;
