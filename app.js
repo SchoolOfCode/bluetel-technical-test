@@ -1,19 +1,21 @@
 require('dotenv').config();
-var express = require('express');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
+const express = require('express');
+const path = require('path');
+const favicon = require('serve-favicon');
+const logger = require('morgan');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
 
-var index = require('./routes/index');
-var accept = require('./routes/accept');
-var accept = require('./routes/present');
+const config = require('./config/config.js');
+const index = require('./routes/index');
+const accept = require('./routes/accept');
+const present = require('./routes/present');
 
-var app = express();
+const app = express();
 
 mongoose.Promise = global.Promise;
-mongoose.connect(`${config.dbProtocol}${config.dbUser}:${config.dbPass}@${config.dbHost}:${config.dbPort}/${config.dbName}`, {useMongoClient:true});
+mongoose.connect(`${config.dbProtocol}${config.dbUser}:${config.dbPass}@${config.dbHost}:${config.dbPort}/${config.dbName}`);
 
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));

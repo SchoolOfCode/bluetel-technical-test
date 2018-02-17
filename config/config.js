@@ -1,5 +1,4 @@
 const config = {
-
   dbProtocol: process.env.DB_PROTOCOL,
   dbHost: process.env.DB_HOST,
   dbPort: process.env.DB_PORT,
