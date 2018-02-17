@@ -8,8 +8,10 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
 const config = require('./config/config.js');
-const accept = require('./routes/accept');
-const present = require('./routes/present');
+const accept = require('./routes/meter-read/accept');
+const present = require('./routes/meter-read/present');
+const customerAccept = require('./routes/customer/accept');
+const customerPresent = require('./routes/customer/present');
 
 const app = express();
 
@@ -30,6 +32,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/meter-read/accept', accept);
 app.use('/meter-read/present', present);
+app.use('/customer/accept', customerAccept);
+app.use('/customer/present', customerPresent);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
