@@ -8,7 +8,6 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
 const config = require('./config/config.js');
-const index = require('./routes/index');
 const accept = require('./routes/accept');
 const present = require('./routes/present');
 
@@ -29,7 +28,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', index);
 app.use('/meter-read/accept', accept);
 app.use('/meter-read/present', present);
 
