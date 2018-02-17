@@ -16,27 +16,30 @@ router.get('/', (req, res) => {
     return res.json({error: "Please provide a customer ID or serial number."});
   };
 
-  if(customerId) {
-    queryVariables['customer.customerId'] = customerId;
-  };
   if(serialNumber) {
     queryVariables.serialNumber = serialNumber;
   };
 
-  Customer.findOne(customerId, (err, customer) => {
-    // something
+  if(customerId) {
+    Customer.findOne({customerId}, (err, customer) => {
+      if(err) {
+        console.log("Something went wrong:", err);
+        return res.json({error:err});
+      };
+      queryVariables.customer = customer;
+    });
+  };
 
   MeterRead.find(queryVariables)
-    .populate('customer')
-    .exec((err, response) => {
-      if(err) {
-        console.log("Something went wrong: ", err);
-        res.json({error: err})
-      };
-      console.log(response);
-      res.json({payload: response});
-    });
-  })
+  .populate('customer')
+  .exec((err, response) => {
+    if(err) {
+      console.log("Something went wrong: ", err);
+      res.json({error: err})
+    };
+    console.log(response);
+    res.json({payload: response});
+  });
 });
 
 module.exports = router;
