@@ -3,9 +3,9 @@ const Schema = mongoose.Schema;
 
 const meterReadSchema = new Schema({
   customerId: String,
-  serialNumber: Number,
-  mpxn: Number,
-  read: [{type: String, registerId: Number, value: Number}],
+  serialNumber: String,
+  mpxn: String,
+  read: [{type: String, registerId: String, value: String}],
   readDate: Date,
 });
 
