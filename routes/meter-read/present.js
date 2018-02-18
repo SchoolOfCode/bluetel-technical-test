@@ -16,7 +16,7 @@ const findMeterReads = (parameters, res) => {
     console.log("Response:", response);
     if(response.length === 0) {
       console.error("Error: no entries could be found.");
-      return res.json({error: "no entries could be found."});
+      return res.json({error: "No entries could be found."});
     };
     res.json({payload: response});
   });
