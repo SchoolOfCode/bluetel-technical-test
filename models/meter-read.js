@@ -6,7 +6,7 @@ const Schema = mongoose.Schema;
 // JSON for readDate has been modified to be a date format that can be read by JavaScript.
 
 const meterReadSchema = new Schema({
-  customerId: {type: String, required: true},
+  customer: {type: Schema.Types.ObjectId, ref: 'Customer', required: true},
   serialNumber: {type: String, required: true},
   mpxn: {type: String, required: true},
   read: {type:[{readType: {type: String, required: true}, registerId: {type: String, required: true}, value: {type: String, required: true}}], required: true},
