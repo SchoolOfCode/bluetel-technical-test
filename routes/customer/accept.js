@@ -1,15 +1,14 @@
 const express = require('express');
 const router = express.Router();
 
-Customer = require('../../models/customer.js');
+const Customer = require('../../models/customer.js');
 
 router.post('/', (req, res) => {
   const newCustomer = new Customer(req.body);
   newCustomer.save((err, response) => {
     if(err) {
-      console.log("Something went wrong:", err);
-      res.json({error:err});
-      return
+      console.error("Something went wrong:", err);
+      return res.json({error:err});
     };
     console.log(response);
     res.json({payload:response});

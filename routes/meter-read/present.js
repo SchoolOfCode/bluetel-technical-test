@@ -4,6 +4,24 @@ const router = express.Router();
 const MeterRead = require('../../models/meter-read.js');
 const Customer = require('../../models/customer.js');
 
+const findMeterReads = (parameters, res) => {
+  console.log("Search Parameters:", parameters)
+  MeterRead.find(parameters)
+  .populate('customer')
+  .exec((err, response) => {
+    if(err) {
+      console.error("Something went wrong: ", err);
+      return res.json({error: err})
+    };
+    console.log("Response:", response);
+    if(response.length === 0) {
+      console.error("Error: no entries could be found.");
+      return res.json({error: "no entries could be found."});
+    };
+    res.json({payload: response});
+  });
+};
+
 // present a meter read from the database.
 router.get('/', (req, res) => {
   const queryVariables = {};
@@ -23,23 +41,19 @@ router.get('/', (req, res) => {
   if(customerId) {
     Customer.findOne({customerId}, (err, customer) => {
       if(err) {
-        console.log("Something went wrong:", err);
+        console.error("Something went wrong:", err);
         return res.json({error:err});
       };
       queryVariables.customer = customer;
+      if(!customer) {
+        console.error("Error: no such customer in database.");
+        return res.json({error: "No such customer in database."});
+      };
+      return findMeterReads(queryVariables, res);
     });
+  } else {
+    return findMeterReads(queryVariables, res);
   };
-
-  MeterRead.find(queryVariables)
-  .populate('customer')
-  .exec((err, response) => {
-    if(err) {
-      console.log("Something went wrong: ", err);
-      res.json({error: err})
-    };
-    console.log(response);
-    res.json({payload: response});
-  });
 });
 
 module.exports = router;

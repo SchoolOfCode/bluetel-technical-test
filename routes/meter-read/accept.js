@@ -17,10 +17,14 @@ router.post('/', (req, res) => {
 
   Customer.findOne({customerId}, (err, customer) => {
     if(err) {
-      console.log("Something went wrong:", err);
+      console.error("Something went wrong:", err);
       return res.json({error:err});
     };
-    console.log(customer);
+    console.log("customer:", customer);
+    if(!customer) {
+      console.error("Error: No such customer in database.");
+      return res.json({error: "No such customer in database."});
+    };
 
     const newMeterRead = new MeterRead({customer: customer._id, serialNumber, mpxn, read, readDate});
     newMeterRead.save((err, response) => {
